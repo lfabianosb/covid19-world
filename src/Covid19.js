@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Chartjs from "chart.js";
-import SelectCountries from "./SelectCountries";
+import SelectCountry from "./SelectCountry";
 
 const url = "https://pomber.github.io/covid19/timeseries.json";
 
@@ -143,11 +143,11 @@ const Covid19 = () => {
     <div>
       <div>
         Country 1:
-        <SelectCountries countries={countries} onSelect={getSelectedCountry1} />
+        <SelectCountry countries={countries} onSelect={getSelectedCountry1} />
         Country 2:
-        <SelectCountries countries={countries} onSelect={getSelectedCountry2} />
+        <SelectCountry countries={countries} onSelect={getSelectedCountry2} />
         Country 3:
-        <SelectCountries countries={countries} onSelect={getSelectedCountry3} />
+        <SelectCountry countries={countries} onSelect={getSelectedCountry3} />
       </div>
       <canvas id="myChart" ref={chartContainer} />
     </div>

@@ -1,6 +1,6 @@
 import React from "react";
 
-const SelectCountries = ({ countries, onSelect }) => {
+const SelectCountry = ({ countries, onSelect }) => {
   const select = (value) => {
     onSelect(value);
   };
@@ -19,4 +19,4 @@ const SelectCountries = ({ countries, onSelect }) => {
   );
 };
 
-export default SelectCountries;
+export default SelectCountry;
