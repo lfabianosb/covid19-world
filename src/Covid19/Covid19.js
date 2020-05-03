@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Chartjs from "chart.js";
-import SelectCountry from "./SelectCountry";
+import SelectCountry from "../SelectCountry";
+import style from "./style.module.css";
 
 const url = "https://pomber.github.io/covid19/timeseries.json";
 
@@ -64,6 +65,7 @@ const Covid19 = () => {
             datasets: [],
           },
           options: {
+            maintainAspectRatio: false,
             animation: {
               duration: 2000, // general animation time
             },
@@ -141,15 +143,20 @@ const Covid19 = () => {
 
   return (
     <div>
-      <div>
-        Country 1:
-        <SelectCountry countries={countries} onSelect={getSelectedCountry1} />
-        Country 2:
-        <SelectCountry countries={countries} onSelect={getSelectedCountry2} />
-        Country 3:
-        <SelectCountry countries={countries} onSelect={getSelectedCountry3} />
+      <div className={style.header}>
+        <div className={style.item}>
+          <SelectCountry countries={countries} onSelect={getSelectedCountry1} />
+        </div>
+        <div className={style.item}>
+          <SelectCountry countries={countries} onSelect={getSelectedCountry2} />
+        </div>
+        <div className={style.item}>
+          <SelectCountry countries={countries} onSelect={getSelectedCountry3} />
+        </div>
       </div>
-      <canvas id="myChart" ref={chartContainer} />
+      <div className={style.container}>
+        <canvas id="myChart" ref={chartContainer} />
+      </div>
     </div>
   );
 };
