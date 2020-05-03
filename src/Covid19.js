@@ -38,7 +38,7 @@ const Covid19 = () => {
         const lb = [];
         data["Brazil"].forEach(({ date }) => {
           const dt = date.split("-");
-          lb.push(dt[2].padStart(2, "0") + "/" + dt[1].padStart(2, "0"));
+          lb.push(dt[1].padStart(2, "0") + "/" + dt[2].padStart(2, "0"));
         });
         setLabels(lb);
 
