@@ -157,6 +157,12 @@ const Covid19 = () => {
       <div className={style.container}>
         <canvas id="myChart" ref={chartContainer} />
       </div>
+      <div className={style.source}>
+        <i>
+          Source:{" "}
+          <a href="https://pomber.github.io">https://pomber.github.io</a>
+        </i>
+      </div>
     </div>
   );
 };
