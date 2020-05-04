@@ -160,13 +160,13 @@ const Covid19 = () => {
       </div>
       <div className={style.source}>
         <i>
-          Source:{" "}
+          Project:{" "}
           <a
             target="_blank"
             rel="noopener noreferrer"
-            href="https://github.com/pomber/covid19"
+            href="https://github.com/lfabianosb/covid19-world"
           >
-            https://github.com/pomber/covid19
+            https://github.com/lfabianosb/covid19-world
           </a>
         </i>
       </div>
