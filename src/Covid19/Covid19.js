@@ -143,6 +143,7 @@ const Covid19 = () => {
 
   return (
     <div>
+      <div className={style.title}>COVID-19</div>
       <div className={style.header}>
         <div className={style.item}>
           <SelectCountry countries={countries} onSelect={getSelectedCountry1} />

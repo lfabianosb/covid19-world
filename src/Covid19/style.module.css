@@ -6,6 +6,7 @@
 }
 
 .header {
+  padding-top: 20px;
   display: flex;
   flex-direction: row;
   text-align: center;
@@ -18,22 +19,41 @@
 
 .source {
   margin-top: 20px;
+  margin-right: 20px;
   font-size: 9px;
   font-family: Arial, Helvetica, sans-serif;
   text-align: end;
 }
 
-@media only screen and (max-width: 900px) {
+.title {
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  background-color: #333;
+  color: white;
+}
+
+@media only screen and (max-width: 880px) {
   .container {
     padding: 0px;
     width: 99%;
     margin: 0 auto;
-    height: 460px;
+    height: 440px;
+  }
+
+  .header {
+    padding-top: 10px;
   }
 
   .item {
     flex: 1;
     margin: 0px;
     padding: 0px;
+  }
+
+  .title {
+    padding: 8px;
   }
 }
