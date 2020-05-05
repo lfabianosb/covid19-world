@@ -158,7 +158,7 @@ const Covid19 = () => {
       <div className={style.container}>
         <canvas id="myChart" ref={chartContainer} />
       </div>
-      <div className={style.source}>
+      <div className={style.footer}>
         <i>
           Project:{" "}
           <a
