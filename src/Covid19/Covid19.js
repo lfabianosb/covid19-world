@@ -159,7 +159,7 @@ const Covid19 = () => {
         <canvas id="myChart" ref={chartContainer} />
       </div>
       <div className={style.footer}>
-        <i>
+        <div>
           Project:{" "}
           <a
             target="_blank"
@@ -168,7 +168,17 @@ const Covid19 = () => {
           >
             https://github.com/lfabianosb/covid19-world
           </a>
-        </i>
+        </div>
+        <div style={{ paddingTop: "10px" }}>
+          Data provided by{" "}
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://github.com/pomber/covid19"
+          >
+            https://github.com/pomber/covid19
+          </a>
+        </div>
       </div>
     </div>
   );
