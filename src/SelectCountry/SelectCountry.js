@@ -1,13 +1,14 @@
 import React from "react";
+import style from "./style.module.css";
 
-const SelectCountry = ({ index, countries, onSelect }) => {
+export const SelectCountry = ({ index, countries, onSelect }) => {
   const select = (value) => {
     onSelect(index, value);
   };
 
   return (
     <>
-      <select onChange={(e) => select(e.target.value)}>
+      <select className={style.select} onChange={(e) => select(e.target.value)}>
         <option value=""> Select Country </option>
         {countries.map((country) => (
           <option value={country} key={country}>
@@ -18,5 +19,3 @@ const SelectCountry = ({ index, countries, onSelect }) => {
     </>
   );
 };
-
-export default SelectCountry;

@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import Chartjs from "chart.js";
-import SelectCountry from "../SelectCountry";
+import { SelectCountry } from "../SelectCountry";
 import style from "./style.module.css";
 
-const url = "https://pomber.github.io/covid19/timeseries.json";
-
+const URL = "https://pomber.github.io/covid19/timeseries.json";
 const DataType = { CASES: 1, DEATHS: 2 };
+const DAYS_SHIFT = 0;
 
 const Covid19 = () => {
   const [labels, setLabels] = useState([]);
@@ -17,18 +17,23 @@ const Covid19 = () => {
   const [listCountry, setListCountry] = useState([
     {
       country: null,
-      backgroundColor: ["rgba(245, 65, 65, 0.2)"],
-      borderColor: ["rgba(245, 65, 65, 1)"],
+      backgroundColor: ["rgba(250, 50, 50, 0.2)"],
+      borderColor: ["rgba(250, 50, 50, 1)"],
     },
     {
       country: null,
-      backgroundColor: ["rgba(65, 245, 65, 0.2)"],
-      borderColor: ["rgba(65, 245, 65, 1)"],
+      backgroundColor: ["rgba(50, 250, 50, 0.2)"],
+      borderColor: ["rgba(50, 250, 50, 1)"],
     },
     {
       country: null,
-      backgroundColor: ["rgba(65, 65, 245, 0.2)"],
-      borderColor: ["rgba(65, 65, 245, 1)"],
+      backgroundColor: ["rgba(50, 50, 250, 0.2)"],
+      borderColor: ["rgba(50, 50, 250, 1)"],
+    },
+    {
+      country: null,
+      backgroundColor: ["rgba(50, 50, 50, 0.2)"],
+      borderColor: ["rgba(50, 50, 50, 1)"],
     },
   ]);
 
@@ -37,12 +42,12 @@ const Covid19 = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await fetch(url);
+        const response = await fetch(URL);
         const data = await response.json();
 
         // Labels
         const lb = [];
-        data["Brazil"].forEach(({ date }) => {
+        data["Brazil"].slice(DAYS_SHIFT).forEach(({ date }) => {
           const dt = date.split("-");
           lb.push(dt[1].padStart(2, "0") + "/" + dt[2].padStart(2, "0"));
         });
@@ -115,9 +120,11 @@ const Covid19 = () => {
     isRemovedDataset(listCountry[index].country);
     myChart.data.datasets.push({
       label: value,
-      data: data[value].map((info) =>
-        dataType === DataType.CASES ? info.confirmed : info.deaths
-      ),
+      data: data[value]
+        .slice(DAYS_SHIFT)
+        .map((info) =>
+          dataType === DataType.CASES ? info.confirmed : info.deaths
+        ),
       backgroundColor: listCountry[index].backgroundColor,
       borderColor: listCountry[index].borderColor,
       borderWidth: 1,
@@ -129,7 +136,11 @@ const Covid19 = () => {
   };
 
   if (!data) {
-    return <h3>Loading...</h3>;
+    return (
+      <div className={style.header}>
+        <h3>Loading...</h3>
+      </div>
+    );
   }
 
   return (

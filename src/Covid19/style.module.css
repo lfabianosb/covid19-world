@@ -3,6 +3,7 @@
   width: 90%;
   margin: 0 auto;
   height: 600px;
+  width: 1100px;
 }
 
 .header {
@@ -11,6 +12,7 @@
   flex-direction: row;
   text-align: center;
   flex-wrap: wrap;
+  width: 1100px;
 }
 
 .item {
@@ -49,12 +51,12 @@
   padding: 20px;
 }
 
-@media only screen and (max-width: 880px) {
+@media only screen and (max-width: 900px) {
   .container {
     padding: 0px;
-    width: 99%;
+    width: 95%;
     margin: 0 auto;
-    height: 440px;
+    height: 520px;
   }
 
   .header {
