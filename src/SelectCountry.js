@@ -1,8 +1,8 @@
 import React from "react";
 
-const SelectCountry = ({ countries, onSelect }) => {
+const SelectCountry = ({ index, countries, onSelect }) => {
   const select = (value) => {
-    onSelect(value);
+    onSelect(index, value);
   };
 
   return (

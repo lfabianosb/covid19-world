@@ -5,36 +5,41 @@ import style from "./style.module.css";
 
 const url = "https://pomber.github.io/covid19/timeseries.json";
 
+const DataType = { CASES: 1, DEATHS: 2 };
+
 const Covid19 = () => {
   const [labels, setLabels] = useState([]);
   const [countries, setCountries] = useState(null);
   const [data, setData] = useState(null);
   const [myChart, setMyChart] = useState(null);
+  const [dataType, setDataType] = useState(DataType.CASES);
 
-  const [country1, setCountry1] = useState(null);
-  const [country2, setCountry2] = useState(null);
-  const [country3, setCountry3] = useState(null);
+  const [listCountry, setListCountry] = useState([
+    {
+      country: null,
+      backgroundColor: ["rgba(245, 65, 65, 0.2)"],
+      borderColor: ["rgba(245, 65, 65, 1)"],
+    },
+    {
+      country: null,
+      backgroundColor: ["rgba(65, 245, 65, 0.2)"],
+      borderColor: ["rgba(65, 245, 65, 1)"],
+    },
+    {
+      country: null,
+      backgroundColor: ["rgba(65, 65, 245, 0.2)"],
+      borderColor: ["rgba(65, 65, 245, 1)"],
+    },
+  ]);
 
   const chartContainer = useRef(null);
-
-  const isRemovedDataset = (country) => {
-    if (country) {
-      const index = myChart.data.datasets.findIndex(
-        (dataset) => dataset.label === country
-      );
-      if (index > -1) {
-        myChart.data.datasets.splice(index, 1);
-        return true;
-      }
-    }
-    return false;
-  };
 
   useEffect(() => {
     const getData = async () => {
       try {
         const response = await fetch(url);
         const data = await response.json();
+
         // Labels
         const lb = [];
         data["Brazil"].forEach(({ date }) => {
@@ -70,71 +75,57 @@ const Covid19 = () => {
               duration: 2000, // general animation time
             },
             responsive: true,
-            title: {
-              display: true,
-              text: "CONFIRMED CASES",
-            },
           },
         })
       );
     }
   }, [chartContainer, data, labels]);
 
-  const getSelectedCountry1 = (value) => {
-    if (!value) {
-      if (isRemovedDataset(country1)) myChart.update();
-      return;
+  useEffect(() => {
+    if (myChart && data) {
+      myChart.data.datasets.map((country) => {
+        country.data = data[country.label].map((info) =>
+          dataType === DataType.CASES ? info.confirmed : info.deaths
+        );
+        return country.data;
+      });
+      myChart.update();
     }
+  }, [dataType, myChart, data]);
 
-    isRemovedDataset(country1);
-    myChart.data.datasets.push({
-      label: value,
-      data: data[value].map((info) => info.confirmed),
-      backgroundColor: ["rgba(245, 65, 65, 0.2)"],
-      borderColor: ["rgba(245, 65, 65, 1)"],
-      borderWidth: 1,
-    });
-    myChart.update();
-
-    setCountry1(value);
+  const isRemovedDataset = (country) => {
+    if (country) {
+      const index = myChart.data.datasets.findIndex(
+        (dataset) => dataset.label === country
+      );
+      if (index > -1) {
+        myChart.data.datasets.splice(index, 1);
+        return true;
+      }
+    }
+    return false;
   };
 
-  const getSelectedCountry2 = (value) => {
+  const getSelectedCountry = (index, value) => {
     if (!value) {
-      if (isRemovedDataset(country2)) myChart.update();
+      if (isRemovedDataset(listCountry[index].country)) myChart.update();
       return;
     }
 
-    isRemovedDataset(country2);
+    isRemovedDataset(listCountry[index].country);
     myChart.data.datasets.push({
       label: value,
-      data: data[value].map((info) => info.confirmed),
-      backgroundColor: ["rgba(65, 245, 65, 0.2)"],
-      borderColor: ["rgba(65, 245, 65, 1)"],
+      data: data[value].map((info) =>
+        dataType === DataType.CASES ? info.confirmed : info.deaths
+      ),
+      backgroundColor: listCountry[index].backgroundColor,
+      borderColor: listCountry[index].borderColor,
       borderWidth: 1,
     });
     myChart.update();
 
-    setCountry2(value);
-  };
-
-  const getSelectedCountry3 = (value) => {
-    if (!value) {
-      if (isRemovedDataset(country3)) myChart.update();
-      return;
-    }
-
-    isRemovedDataset(country3);
-    myChart.data.datasets.push({
-      label: value,
-      data: data[value].map((info) => info.confirmed),
-      backgroundColor: ["rgba(65, 65, 245, 0.2)"],
-      borderColor: ["rgba(65, 65, 245, 1)"],
-      borderWidth: 1,
-    });
-    myChart.update();
-
-    setCountry3(value);
+    listCountry[index].country = value;
+    setListCountry([...listCountry]);
   };
 
   if (!data) {
@@ -145,15 +136,35 @@ const Covid19 = () => {
     <div>
       <div className={style.title}>COVID-19</div>
       <div className={style.header}>
-        <div className={style.item}>
-          <SelectCountry countries={countries} onSelect={getSelectedCountry1} />
-        </div>
-        <div className={style.item}>
-          <SelectCountry countries={countries} onSelect={getSelectedCountry2} />
-        </div>
-        <div className={style.item}>
-          <SelectCountry countries={countries} onSelect={getSelectedCountry3} />
-        </div>
+        {listCountry.map((_, index) => (
+          <div className={style.item} key={index}>
+            <SelectCountry
+              index={index}
+              countries={countries}
+              onSelect={getSelectedCountry}
+            />
+          </div>
+        ))}
+      </div>
+      <div className={style.radioContainer}>
+        <label className={style.radio}>
+          <input
+            type="radio"
+            value={DataType.CASES}
+            checked={dataType === DataType.CASES}
+            onChange={() => setDataType(DataType.CASES)}
+          />{" "}
+          CASES
+        </label>
+        <label className={style.radio}>
+          <input
+            type="radio"
+            value={DataType.DEATHS}
+            checked={dataType === DataType.DEATHS}
+            onChange={() => setDataType(DataType.DEATHS)}
+          />{" "}
+          DEATHS
+        </label>
       </div>
       <div className={style.container}>
         <canvas id="myChart" ref={chartContainer} />
@@ -169,7 +180,7 @@ const Covid19 = () => {
             https://github.com/lfabianosb/covid19-world
           </a>
         </div>
-        <div style={{ paddingTop: "10px" }}>
+        <div style={{ paddingTop: 10 }}>
           Data provided by{" "}
           <a
             target="_blank"
