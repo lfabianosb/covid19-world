@@ -5,7 +5,7 @@ import style from "./style.module.css";
 
 const URL = "https://pomber.github.io/covid19/timeseries.json";
 const DataType = { CASES: 1, DEATHS: 2 };
-const DAYS_SHIFT = 0;
+const DAYS_SHIFT = 20;
 
 const Covid19 = () => {
   const [labels, setLabels] = useState([]);
@@ -89,9 +89,11 @@ const Covid19 = () => {
   useEffect(() => {
     if (myChart && data) {
       myChart.data.datasets.map((country) => {
-        country.data = data[country.label].map((info) =>
-          dataType === DataType.CASES ? info.confirmed : info.deaths
-        );
+        country.data = data[country.label]
+          .slice(DAYS_SHIFT)
+          .map((info) =>
+            dataType === DataType.CASES ? info.confirmed : info.deaths
+          );
         return country.data;
       });
       myChart.update();

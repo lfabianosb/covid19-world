@@ -1,5 +1,5 @@
 import React from "react";
-import style from "./style.module.css";
+import "./style.css";
 
 export const SelectCountry = ({ index, countries, onSelect }) => {
   const select = (value) => {
@@ -7,8 +7,8 @@ export const SelectCountry = ({ index, countries, onSelect }) => {
   };
 
   return (
-    <>
-      <select className={style.select} onChange={(e) => select(e.target.value)}>
+    <div className="select">
+      <select onChange={(e) => select(e.target.value)}>
         <option value=""> Select Country </option>
         {countries.map((country) => (
           <option value={country} key={country}>
@@ -16,6 +16,6 @@ export const SelectCountry = ({ index, countries, onSelect }) => {
           </option>
         ))}
       </select>
-    </>
+    </div>
   );
 };
